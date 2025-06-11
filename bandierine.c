@@ -1,4 +1,3 @@
-
 #include <unistd.h>
 #include <pthread.h>
 #include <semaphore.h>
@@ -92,8 +91,9 @@ int risultato_gioco(bandierine_t *b) // non bloccante
         sem_wait(&b->s_arbitro_risultato);
         b->arbitro_pronto_risultato--;
     }
+    // quando mi ritrovo qui o ho ricevuto il token da uno dei due player oppure non sono mai entrato nell'if, in ogni caso ho in mano il mutex e posso dare il risultato
 
-    /// CORREZIONE: mi salvo le variabili in locale così posso resettare le variabili contenute nella struct (p la prossima partita) prima di verificare chi ha vinto
+    /// CORREZIONE: mi salvo le variabili in locale così posso resettare le variabili contenute nella struct (per la prossima partita) prima di verificare chi ha vinto
     int s1 = b->salvo_1;
     int s2 = b->salvo_2;
     int p1 = b->preso_1;
@@ -123,7 +123,6 @@ int risultato_gioco(bandierine_t *b) // non bloccante
         sem_post(&b->mutex);
         return 1;
     }
-
     /// FINE CORREZIONE
 }
 
@@ -260,7 +259,6 @@ int ti_ho_preso(bandierine_t *b, int n) // non bloccante
         }
     }
 }
-
 
 
 
